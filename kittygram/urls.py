@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from cats.views import CatViewSet, OwnerViewSet
+from cats.views import CatViewSet, OwnerViewSet, AchievementViewSet
 
 from rest_framework.routers import DefaultRouter
 

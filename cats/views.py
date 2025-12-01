@@ -36,13 +36,36 @@
 from rest_framework import viewsets
 
 from .models import Cat, Owner
-from .serializers import CatSerializer, OwnerSerializer
+from .serializers import CatSerializer, OwnerSerializer, AchievementSerializer
+from .models import Achievement
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+
 
 class CatViewSet(viewsets.ModelViewSet):
     queryset = Cat.objects.all()
     serializer_class = CatSerializer
 
+    @action(detail=False, url_path='recent-white-cats')
+    def recent_white_cats(self, request):
+        cats = Cat.objects.filter(color='White')[:5]
+        seliralizer = self.get_serializer(cats, many=True)
+        return Response(seliralizer.data)
+
+
+class CatViewSet(viewsets.ModelViewSet):
+    queryset = Cat.objects.all()
+    serializer_class = CatSerializer
+
+    def get_serializer_class(self):
+
+        return super().get_serializer(*args, **kwargs)
 
 class OwnerViewSet(viewsets.ModelViewSet):
     queryset = Owner.objects.all()
     serializer_class = OwnerSerializer
+
+class AchievementViewSet(viewsets.ModelViewSet):
+    queryset = Achievement.objects.all()
+    serializer_class = AchievementSerializer
